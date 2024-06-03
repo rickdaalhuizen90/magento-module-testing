@@ -1,0 +1,10 @@
+/*
+
+!.gitignore
+!opensearch/
+!php-fpm/
+!docker-compose.yml
+!install_magento.sh
+!.env.example
+!Makefile
+!README.md
