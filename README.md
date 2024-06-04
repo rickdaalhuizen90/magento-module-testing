@@ -10,16 +10,18 @@ A minimal Docker image for testing Magento 2 modules.
     ```
 2. Build the Docker image:
     ```bash
-    make build MAGENTO=2.4.7 PHP=8.3 COMPOSER=2.3 OPENSEARCH=2.14
+    make build PHP_VERSION=8.3 COMPOSER_VERSION=2.3 OPENSEARCH_VERSION=2.14
     ```
 3. Install your Magento module:
     ```bash
-    make install && make install-module MODULE=/path/to/Vendor/Module
+    make install MAGENTO_VERSION=2.4.7 && make install-module MODULE_PATH=/path/to/Vendor/Module
     ```
 4. Run tests:
     ```bash
     make tests
     ```
+
+Docker will first use the default variables defined in the .env file, but their values can be overridden by passing arguments to the make command.
 
 ## Features
 

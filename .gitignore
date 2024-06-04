@@ -1,10 +1,17 @@
-/*
+# Ignore everything
+*
 
+# Except the specified files and directories
 !.gitignore
-!opensearch/
-!php-fpm/
-!docker-compose.yml
-!install_magento.sh
-!.env.example
-!Makefile
-!README.md
+Makefile
+README.md
+bin/install_magento.sh
+docker-compose.yml
+opensearch/Dockerfile
+php-fpm/Dockerfile
+php-fpm/opcache.ini
+php-fpm/php.ini
+src/Vendor/Module/etc/module.xml
+src/Vendor/Module/registration.php
+tests/mftf/etc/config.xml.tmpl
+tests/mftf/phpunit.xml.tmpl
