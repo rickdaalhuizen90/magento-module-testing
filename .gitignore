@@ -5,8 +5,11 @@
 !.gitignore
 Makefile
 README.md
+out/.gitkeep
 bin/install_magento.sh
 docker-compose.yml
+magento-coding-standard/Dockerfile
+magento-coding-standard/entrypoint.sh
 opensearch/Dockerfile
 php-fpm/Dockerfile
 php-fpm/opcache.ini

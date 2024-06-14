@@ -59,3 +59,10 @@ services:
     shm_size: 2gb
     ports:
       - "4444:4444"
+
+  magento-coding-standard:
+    container_name: magento-coding-standard-test
+    build:
+      context: ./magento-coding-standard
+      args:
+        - MAGENTO_CODING_STANDARD_VERSION=${MAGENTO_CODING_STANDARD_VERSION:-33}

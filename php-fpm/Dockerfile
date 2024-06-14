@@ -16,6 +16,7 @@ RUN apt-get update && apt-get -y install \
     mariadb-client \
     apt-transport-https \
     zip \
+    jq \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
     libzip-dev \
