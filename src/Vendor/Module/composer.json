@@ -1,0 +1,12 @@
+{
+    "name": "vendor/magento-module-example",
+    "type": "magento-extension",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Vendor\\MagentoModuleExample\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}

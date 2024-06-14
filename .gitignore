@@ -1,20 +1,15 @@
 # Ignore everything
-*
+/*
 
-# Except the specified files and directories
+# Allow specific files and directories
 !.gitignore
-Makefile
-README.md
-out/.gitkeep
-bin/install_magento.sh
-docker-compose.yml
-magento-coding-standard/Dockerfile
-magento-coding-standard/entrypoint.sh
-opensearch/Dockerfile
-php-fpm/Dockerfile
-php-fpm/opcache.ini
-php-fpm/php.ini
-src/Vendor/Module/etc/module.xml
-src/Vendor/Module/registration.php
-tests/mftf/etc/config.xml.tmpl
-tests/mftf/phpunit.xml.tmpl
+!Makefile
+!README.md
+!out/.gitkeep
+!bin/
+!docker-compose.yml
+!magento-coding-standard/
+!opensearch/
+!php-fpm/
+!src/
+!tests/

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="config.xsd">
+    <application>
+        <reopenBrowser>testCase</reopenBrowser>
+        <backendLogin>{{ .Env.MAGENTO_USER }}</backendLogin>
+        <backendPassword>{{ .Env.MAGENTO_PASSWORD }}</backendPassword>
+        <appBackendUrl>http://localhost/admin</appBackendUrl>
+        <backendLoginUrl>admin/auth/login</backendLoginUrl>
+    </application>
+    <install>
+        <host>mysql-test</host>
+        <user>root</user>
+        <password>{{ .Env.MYSQL_ROOT_PASSWORD }}</password>
+        <dbName>{{ .Env.MYSQL_DATABASE }}_test</dbName>
+        <baseUrl>http://localhost/</baseUrl>
+        <backendName>admin</backendName>
+    </install>
+    <handler>
+        <webapi priority="0">
+            <token>integration_token</token>
+        </webapi>
+        <curl priority="1" />
+        <ui priority="2" />
+    </handler>
+    <server>
+      <item name="selenium"
+            type="default"
+            browser="Firefox"
+            browserName="firefox"
+            host="selenium-test"
+            port="4444"
+            seleniumServerRequestsTimeout="90"
+            sessionStrategy="shared">
+          <desiredCapabilities>
+              <platform>ANY</platform>
+          </desiredCapabilities>
+      </item>
+    </server>
+</config>
