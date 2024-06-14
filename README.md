@@ -29,4 +29,10 @@ Docker will first use the default variables defined in the .env file, but their 
 - Runs PHP unit tests, integration tests, and MTFT tests for the module
 
 ## TODO
-- [ ]  Implement testing configuration.
+- [X] Static analysis
+- [X] Code formatting
+- [ ] Unit tests
+- [ ] Integration tests
+- [ ] Rector
+- [ ] MTFT tests
+- [ ] Performance testing
