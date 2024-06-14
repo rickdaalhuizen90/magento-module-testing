@@ -64,7 +64,7 @@ phpcs:
 	@docker run --rm -v $(PWD)/${MODULE_PATH}:/app/${MODULE} \
 		magento-coding-standard-test \
 		php magento-coding-standard/vendor/bin/phpcs \
-		--standard=PSR12 \
+		--standard=Magento2 \
 		--extensions=php,phtml \
 		--error-severity=10 \
 		--ignore-annotations \
@@ -77,7 +77,7 @@ phpcbf:
 	@docker run --rm -v $(PWD)/${MODULE_PATH}:/app/${MODULE} \
 		magento-coding-standard-test \
 		php magento-coding-standard/vendor/bin/phpcbf \
-         --standard=PSR12 \
+         --standard=Magento2 \
          --extensions=php,phtml \
          --ignore-annotations \
 		${MODULE}
