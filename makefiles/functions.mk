@@ -1,5 +1,5 @@
 define download_module
-    @docker cp $(CONTAINER):/var/www/html/app/code/$(basename $(MODULE))/. $(MODULE_PATH)
+    @docker cp --quiet $(CONTAINER):/var/www/html/app/code/$(basename $(MODULE))/. $(MODULE_PATH)
 endef
 
 define build_containers
@@ -16,6 +16,7 @@ define copy_config
 	@docker cp --quiet tests/integration/phpunit.xml.dist $(CONTAINER):/var/www/html/dev/tests/integration/phpunit.xml
     @docker cp --quiet tests/integration/etc/install-config-mysql.php $(CONTAINER):/var/www/html/dev/tests/integration/etc/install-config-mysql.php
     @docker cp --quiet tests/integration/etc/config-global.php $(CONTAINER):/var/www/html/dev/tests/integration/etc/config-global.php
+    @docker cp --quiet tests/rector.php $(CONTAINER):/var/www/html/rector.php
 endef
 
 define upload_module
@@ -69,11 +70,15 @@ define run_performance_tests
 endef
 
 define run_unit_tests
-    @docker exec --user root $(CONTAINER) ./vendor/bin/phpunit --migrate-configuration -c dev/tests/unit/phpunit.xml app/code/$(MODULE)/Test/Unit
+    @docker exec -it --user root $(CONTAINER) ./vendor/bin/phpunit --migrate-configuration -c dev/tests/unit/phpunit.xml app/code/$(MODULE)/Test/Unit
 endef
 
 define run_integration_tests
-    @docker exec --user root $(CONTAINER) ./vendor/bin/phpunit --testsuite "Third Part Integration Tests" app/code/$(MODULE)/Test/Integration
+    @docker exec -it --user root $(CONTAINER) ./vendor/bin/phpunit --testsuite "Third Part Integration Tests" app/code/$(MODULE)/Test/Integration
+endef
+
+define run_rector
+	@docker exec -it --user root $(CONTAINER) ./vendor/bin/rector process app/code/
 endef
 
 define run_mtf_tests

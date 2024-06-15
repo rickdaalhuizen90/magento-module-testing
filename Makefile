@@ -20,6 +20,7 @@ help:
 	@echo "  [General]"
 	@echo "  make build               - Build the Docker containers"
 	@echo "  make install             - Install Magento in the Docker container"
+	@echo "  make copy-config         - Sync configuration files to the Docker container"
 	@echo "  make upload              - Upload the module to the Magento instance"
 	@echo "  make install-module      - Install the module in the Magento instance"
 	@echo "  make package             - Package the module into a zip file"
@@ -30,6 +31,7 @@ help:
 	@echo "  make performance-tests   - Run performance tests on the module"
 	@echo "  make unit-tests          - Run unit tests on the module"
 	@echo "  make integration-tests   - Run integration tests on the module"
+	@echo "  make rector              - Run Rector on the module"
 	@echo "  make mtf-tests           - Run MTF (Magento Testing Framework) tests on the module"
 	@echo "  make tests               - Run all tests on the module"
 
@@ -40,7 +42,9 @@ build:
 install:
 	@echo "🚀 Installing Magento ${MAGENTO_VERSION}..."
 	$(call install_magento)
+	$(call copy-config)
 
+copy-config:
 	@echo "🔄 Syncing configuration files..."
 	$(call copy_config)
 
@@ -76,6 +80,12 @@ unit-tests:
 integration-tests:
 	@echo "🧪 Running integration tests on the module..."
 	$(call run_integration_tests)
+
+rector:
+	@echo "🔧 Running Rector..."
+	$(call upload_module)
+	$(call run_rector)
+	$(call download_module)
 
 mtf-tests:
 	@echo "🧪 Running MTF (Magento Testing Framework) tests on the module..."

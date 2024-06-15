@@ -38,6 +38,6 @@ Docker will first use the default variables defined in the .env file, but their 
 - [x] Code formatting
 - [x] Unit tests
 - [x] Integration tests
-- [ ] Rector
+- [x] Rector
 - [ ] MTFT tests
 - [ ] Performance testing
