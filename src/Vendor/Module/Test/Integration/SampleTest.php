@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Module\Test\Unit;
+namespace Vendor\Module\Test\Integration;
 
 class SampleTest extends \PHPUnit\Framework\TestCase
 {

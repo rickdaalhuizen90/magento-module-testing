@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         colors="true"
+         bootstrap="./framework/bootstrap.php">
+    <testsuites>
+        <testsuite name="Third Party Integration Tests">
+            <directory>../../../app/code/*/*/Test/Integration</directory>
+            <directory>../../../vendor/*/module-*/Test/Integration</directory>
+            <exclude>../../../app/code/Magento</exclude>
+            <exclude>../../../vendor/magento</exclude>
+        </testsuite>
+    </testsuites>
+    <php>
+        <includePath>.</includePath>
+        <includePath>testsuite</includePath>
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+        <const name="TESTS_INSTALL_CONFIG_FILE" value="etc/install-config-mysql.php"/>
+        <const name="TESTS_POST_INSTALL_SETUP_COMMAND_CONFIG_FILE" value="etc/post-install-setup-command-config.php"/>
+        <const name="TESTS_GLOBAL_CONFIG_FILE" value="etc/config-global.php"/>
+        <const name="TESTS_CLEANUP" value="enabled"/>
+        <const name="TESTS_MEM_USAGE_LIMIT" value="1024M"/>
+        <const name="TESTS_MEM_LEAK_LIMIT" value=""/>
+        <const name="TESTS_MAGENTO_MODE" value="developer"/>
+        <const name="USE_OVERRIDE_CONFIG" value="enabled"/>
+    </php>
+</phpunit>

@@ -14,9 +14,14 @@ A minimal Docker image for testing Magento 2 modules.
     ```
 3. Install your Magento module:
     ```bash
-    make install MAGENTO_VERSION=2.4.7 && make install-module MODULE_PATH=/path/to/Vendor/Module
+    make install MAGENTO_VERSION=2.4.7
     ```
-4. Run tests:
+4. Upload and install the module:
+    ```bash
+    make upload && make install-module MODULE_PATH=/path/to/Vendor/Module
+    ```   
+
+5. Run tests:
     ```bash
     make tests
     ```
@@ -29,10 +34,10 @@ Docker will first use the default variables defined in the .env file, but their 
 - Runs PHP unit tests, integration tests, and MTFT tests for the module
 
 ## TODO
-- [X] Static analysis
-- [X] Code formatting
+- [x] Static analysis
+- [x] Code formatting
 - [x] Unit tests
-- [ ] Integration tests
+- [x] Integration tests
 - [ ] Rector
 - [ ] MTFT tests
 - [ ] Performance testing
