@@ -44,7 +44,7 @@ endef
 
 define run_phpcs
     @docker run --rm -v $(PWD)/$(MODULE_PATH):/app/$(MODULE) \
-        magento-coding-standard-test \
+        ghcr.io/rickdaalhuizen90/magento-coding-standard:latest \
         php magento-coding-standard/vendor/bin/phpcs \
         --standard=Magento2 \
         --extensions=php,phtml \
@@ -57,7 +57,7 @@ endef
 
 define run_phpcbf
     @docker run --rm -v $(PWD)/$(MODULE_PATH):/app/$(MODULE) \
-        magento-coding-standard-test \
+        ghcr.io/rickdaalhuizen90/magento-coding-standard:latest \
         php magento-coding-standard/vendor/bin/phpcbf \
         --standard=Magento2 \
         --extensions=php,phtml \

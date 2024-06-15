@@ -37,10 +37,7 @@ services:
 
   opensearch:
     container_name: opensearch-test
-    build:
-      context: ./opensearch
-      args:
-        - OPENSEARCH_VERSION=${OPENSEARCH_VERSION:-1.2.3}
+    image: ghcr.io/rickdaalhuizen90/opensearch:${OPENSEARCH_VERSION:-2.12.0}
     environment:
       - cluster.name=opensearch-cluster
       - discovery.type=single-node
@@ -50,6 +47,10 @@ services:
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - "DISABLE_INSTALL_DEMO_CONFIG=true"
       - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
   selenium:
     image: selenium/standalone-firefox
@@ -57,10 +58,3 @@ services:
     shm_size: 2gb
     ports:
       - "4444:4444"
-
-  magento-coding-standard:
-    container_name: magento-coding-standard-test
-    build:
-      context: ./magento-coding-standard
-      args:
-        - MAGENTO_CODING_STANDARD_VERSION=${MAGENTO_CODING_STANDARD_VERSION:-33}
