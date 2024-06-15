@@ -1,7 +1,4 @@
-ARG PHP_VERSION=8.2
-ARG COMPOSER_VERSION=2.2
-
-FROM php:${PHP_VERSION}-fpm
+FROM php:8.3-fpm
 
 RUN usermod --uid 1000 www-data
 RUN groupmod --gid 1000 www-data
@@ -46,7 +43,7 @@ RUN set -eux; \
     docker-php-ext-install -j$(nproc) gd
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 # Set the working directory
 WORKDIR /var/www/html

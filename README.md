@@ -10,7 +10,7 @@ A minimal Docker image for testing Magento 2 modules.
     ```
 2. Build the Docker image:
     ```bash
-    make build PHP_VERSION=8.3 COMPOSER_VERSION=2.3 OPENSEARCH_VERSION=2.14
+    make build PHP_VERSION=8.3 OPENSEARCH_VERSION=2.14
     ```
 3. Install your Magento module:
     ```bash
