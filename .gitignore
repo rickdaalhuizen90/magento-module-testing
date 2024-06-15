@@ -10,6 +10,7 @@
 !docker-compose.yml
 !magento-coding-standard/
 !opensearch/
+!makefiles/
 !php-fpm/
 !src/
 !tests/
