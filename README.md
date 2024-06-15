@@ -31,7 +31,7 @@ Docker will first use the default variables defined in the .env file, but their 
 ## TODO
 - [X] Static analysis
 - [X] Code formatting
-- [ ] Unit tests
+- [x] Unit tests
 - [ ] Integration tests
 - [ ] Rector
 - [ ] MTFT tests
