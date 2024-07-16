@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/9.6/phpunit.xsd"
          colors="true"
-         bootstrap="./framework/bootstrap.php">
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         bootstrap="./framework/bootstrap.php"
+         stderr="true">
     <testsuites>
         <testsuite name="Third Party Integration Tests">
             <directory>../../../app/code/*/*/Test/Integration</directory>
@@ -18,10 +20,16 @@
         <const name="TESTS_INSTALL_CONFIG_FILE" value="etc/install-config-mysql.php"/>
         <const name="TESTS_POST_INSTALL_SETUP_COMMAND_CONFIG_FILE" value="etc/post-install-setup-command-config.php"/>
         <const name="TESTS_GLOBAL_CONFIG_FILE" value="etc/config-global.php"/>
-        <const name="TESTS_CLEANUP" value="enabled"/>
-        <const name="TESTS_MEM_USAGE_LIMIT" value="1024M"/>
+        <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
+        <const name="TESTS_CLEANUP" value="disabled"/>
+        <const name="TESTS_MEM_USAGE_LIMIT" value="8192M"/>
         <const name="TESTS_MEM_LEAK_LIMIT" value=""/>
+        <const name="TESTS_EXTRA_VERBOSE_LOG" value="1"/>
         <const name="TESTS_MAGENTO_MODE" value="developer"/>
-        <const name="USE_OVERRIDE_CONFIG" value="enabled"/>
+        <const name="TESTS_ERROR_LOG_LISTENER_LEVEL" value="-1"/>
     </php>
+    <listeners>
+        <listener class="Magento\TestFramework\Event\PhpUnit"/>
+        <listener class="Magento\TestFramework\ErrorLog\Listener"/>
+    </listeners>
 </phpunit>

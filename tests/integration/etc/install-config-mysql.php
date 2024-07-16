@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'db-host' => 'localhost',
+    'db-host' => 'mysql',
     'db-user' => getenv('MYSQL_USER'),
     'db-password' => getenv('MYSQL_PASSWORD'),
     'db-name' => getenv('MYSQL_DATABASE'),
@@ -12,7 +12,7 @@ return [
     'admin-email' => \Magento\TestFramework\Bootstrap::ADMIN_EMAIL,
     'admin-firstname' => \Magento\TestFramework\Bootstrap::ADMIN_FIRSTNAME,
     'admin-lastname' => \Magento\TestFramework\Bootstrap::ADMIN_LASTNAME,
-    'amqp-host' => 'localhost',
+    'amqp-host' => 'rabbitmq',
     'amqp-port' => '5672',
     'amqp-user' => 'guest',
     'amqp-password' => 'guest',

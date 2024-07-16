@@ -15,8 +15,8 @@ services:
     depends_on:
       - mysql
       - opensearch
+      - rabbitmq
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -S http://localhost || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -50,4 +50,16 @@ services:
       memlock:
         soft: -1
         hard: -1
-
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 5
