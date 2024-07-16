@@ -91,7 +91,7 @@ mtf-tests:
 	@echo "🧪 Running MTF (Magento Testing Framework) tests on the module..."
 	$(call run_mtf_tests)
 
-setup: build install sync-config upload install-module
+setup: build install sync-config copy-config upload install-module
 	@echo "🎉 Setup completed successfully!"
 
 tests: phpcs performance-tests unit-tests integration-tests mtf-tests

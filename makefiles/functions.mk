@@ -74,8 +74,12 @@ define run_unit_tests
 endef
 
 define run_integration_tests
-    @docker exec -it --user root $(CONTAINER) ./vendor/bin/phpunit --testsuite "Third Part Integration Tests" app/code/$(MODULE)/Test/Integration
+    @docker exec -i --user www-data -w /var/www/html $(CONTAINER) bash -c ' \
+        cd dev/tests/integration && \
+        ../../../vendor/bin/phpunit --testsuite "Third Party Integration Tests" --color ../../../app/code/$(MODULE)/Test/Integration \
+    '
 endef
+
 
 define run_rector
 	@docker exec -it --user root $(CONTAINER) ./vendor/bin/rector process app/code/
