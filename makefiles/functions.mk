@@ -3,8 +3,8 @@ define download_module
 endef
 
 define build_containers
-    @docker-compose down --remove-orphans
-    @docker-compose up --always-recreate-deps --build --detach
+    @docker compose down --remove-orphans
+    @docker compose up --always-recreate-deps --build --detach
 endef
 
 define install_magento

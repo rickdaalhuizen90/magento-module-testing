@@ -12,5 +12,5 @@
 !opensearch/
 !makefiles/
 !php-fpm/
-!src/
+!src/Vendor
 !tests/
