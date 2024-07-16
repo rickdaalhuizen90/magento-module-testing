@@ -6,7 +6,7 @@ ifeq ($(shell which xmlstarlet),)
     $(error "xmlstarlet is not installed. Please install it before running the Makefile command.")
 endif
 
-MODULE_NAME := $(shell xmlstarlet sel -t -v "//module/@name" $(MODULE_PATH)/etc/module.xml)
+MODULE_NAME := $(shell xmlstarlet sel -t -v "//module/@name" $(MODULE_PATH)/etc/module.xml | head -n 1)
 MODULE := $(shell echo $(MODULE_NAME) | sed 's/_/\//g')
 CONTAINER := php-fpm-test
 
