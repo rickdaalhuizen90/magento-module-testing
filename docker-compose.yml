@@ -16,10 +16,6 @@ services:
       - mysql
       - opensearch
       - rabbitmq
-    healthcheck:
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   mysql:
     container_name: mysql-test
@@ -59,7 +55,3 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-    healthcheck:
-      interval: 30s
-      timeout: 10s
-      retries: 5
