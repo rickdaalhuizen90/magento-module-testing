@@ -36,4 +36,12 @@ php -d memory_limit=-1 bin/magento setup:install \
 
 php bin/magento deploy:mode:set developer
 
-COMPOSER_MEMORY_LIMIT=-1 composer require --dev psalm/phar phan/phan #rector/rector -W
+COMPOSER_MEMORY_LIMIT=-1 composer require --dev psalm/phar \
+    phan/phan \
+    phpstan/extension-installer \
+    phpstan/phpstan-beberlei-assert \
+    phpstan/phpstan-strict-rules
+
+jq '.autoload."psr-4"."PhpStanRules\\" = "dev/tests/phpstan-rules/"' "composer.json" > tmp.$$.json && mv tmp.$$.json "composer.json"
+
+composer dump-autoload

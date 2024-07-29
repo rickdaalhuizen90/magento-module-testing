@@ -1,4 +1,55 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+rules:
+	- PhpStanRules\DependencyInjectionRule
+	- PhpStanRules\EventObserverConsistencyRule
+	- PhpStanRules\PerformanceOptimizationRule
+
 parameters:
-	level: 6
-	paths:
-		- app/code
+    level: max
+    paths:
+        - app/code
+
+    scanDirectories:
+        - dev/tests/phpstan-rules/
+
+    excludePaths:
+        - */Test/*
+        - */vendor/*
+
+    bootstrapFiles:
+        - vendor/autoload.php
+
+    scanFiles:
+        - vendor/magento/framework/Model/AbstractModel.php
+        - vendor/magento/framework/View/Element/Template.php
+
+    polluteScopeWithLoopInitialAssignments: false
+    polluteScopeWithAlwaysIterableForeach: false
+    checkAlwaysTrueCheckTypeFunctionCall: true
+    checkAlwaysTrueInstanceof: true
+    checkAlwaysTrueStrictComparison: true
+    checkExplicitMixedMissingReturn: true
+    checkFunctionNameCase: true
+    checkInternalClassCaseSensitivity: true
+    reportMaybesInMethodSignatures: true
+    reportMaybesInPropertyPhpDocTypes: true
+    reportStaticMethodSignatures: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkUninitializedProperties: true
+    checkDynamicProperties: true
+    rememberPossiblyImpureFunctionValues: false
+    checkImplicitMixed: true
+    checkBenevolentUnionTypes: true
+    reportPossiblyNonexistentGeneralArrayOffset: true
+    reportPossiblyNonexistentConstantArrayOffset: true
+    reportAlwaysTrueInLastCondition: true
+    reportWrongPhpDocTypeInVarTag: true
+    reportAnyTypeWideningInVarTag: true
+    checkMissingOverrideMethodAttribute: true
+    checkMissingVarTagTypehint: true
+    checkMissingIterableValueType: true
+    inferPrivatePropertyTypeFromConstructor: true
+    treatPhpDocTypesAsCertain: true
+    errorFormat: table
