@@ -9,6 +9,8 @@ MAGENTO_CLEAN_VERSION=$(echo "$MAGENTO_VERSION" | sed 's/-.*//')
 if [[ "${MAGENTO_CLEAN_VERSION}" < "2.4.4" ]]; then
     SEARCH_ENGINE="elasticsearch7"
     SEARCH_ENGINE_FLAGS="--elasticsearch-host=opensearch --elasticsearch-port=9200"
+
+    # install rector/rector 0.11.60
 else
     SEARCH_ENGINE="opensearch"
     SEARCH_ENGINE_FLAGS="--${SEARCH_ENGINE}-host=opensearch --${SEARCH_ENGINE}-port=9200"
@@ -36,7 +38,7 @@ php -d memory_limit=-1 bin/magento setup:install \
 
 php bin/magento deploy:mode:set developer
 
-COMPOSER_MEMORY_LIMIT=-1 composer require --dev psalm/phar \
+COMPOSER_MEMORY_LIMIT=-1 composer require --dev -W psalm/phar \
     phan/phan \
     phpstan/extension-installer \
     phpstan/phpstan-beberlei-assert \

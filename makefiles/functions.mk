@@ -19,9 +19,9 @@ define copy_config
     @docker cp --quiet tests/phan.php $(CONTAINER):/var/www/html/phan.php
     @docker cp --quiet tests/phpstan.neon $(CONTAINER):/var/www/html/phpstan.neon
     @docker cp --quiet tests/psalm.xml $(CONTAINER):/var/www/html/psalm.xml
-    @docker cp --quiet tests/rector.php $(CONTAINER):/var/www/html/rector.php
     @docker cp --quiet tests/phpstan-rules $(CONTAINER):/var/www/html/dev/tests/phpstan-rules
     @docker cp --quiet tests/ruleset.xml $(CONTAINER):/var/www/html/ruleset.xml
+    @docker cp --quiet tests/rector.php $(CONTAINER):/var/www/html/rector.php
 endef
 
 define upload_module
