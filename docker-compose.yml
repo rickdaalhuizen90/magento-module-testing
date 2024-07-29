@@ -9,6 +9,9 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-magento}
       - MYSQL_USER=${MYSQL_USER:-magento}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-magento}
+      - MAGENTO_PUBLIC_KEY=${MAGENTO_PUBLIC_KEY}
+      - MAGENTO_PRIVATE_KEY=${MAGENTO_PRIVATE_KEY}
+      - MAGENTO_VERSION=${MAGENTO_VERSION}
     volumes:
       - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./php-fpm/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini:ro
@@ -48,7 +51,7 @@ services:
         hard: -1
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3-management
+    image: rabbitmq:3.8-management-alpine
     ports:
       - "5672:5672"
       - "15672:15672"
