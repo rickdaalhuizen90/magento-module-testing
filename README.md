@@ -39,6 +39,5 @@ Docker will first use the default variables defined in the .env file, but their 
 - [x] Unit tests
 - [x] Integration tests
 - [x] Rector
-- [ ] Fix bug with magento-coding-standard Docker iamge
 - [ ] MTFT tests
 - [ ] Performance testing

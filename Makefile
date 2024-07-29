@@ -124,7 +124,7 @@ setup: build install copy-config upload install-module
 format-code: phpcbf rector
 	@echo "🎉 Code formatting completed successfully!"
 
-static-code-analysis: phpcs psalm phan phpmd
+static-code-analysis: phpstan phpmd phpcs psalm phan
 	@echo "🎉 Static code analysis completed successfully!"
 
 tests: performance-tests unit-tests integration-tests mtf-tests
