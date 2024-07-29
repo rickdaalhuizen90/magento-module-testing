@@ -60,13 +60,12 @@ define run_phpcs
 endef
 
 define run_phpcbf
-    @docker run --rm --name magento-coding-standard -v $(MODULE_PATH):/app/$(MODULE) \
-        ghcr.io/rickdaalhuizen90/magento-coding-standard:latest \
-        php magento-coding-standard/vendor/bin/phpcbf \
+    # TODO: implement ghcr.io/rickdaalhuizen90/magento-coding-standard:latest 
+    @docker exec --user root $(CONTAINER) php vendor/bin/phpcbf \
         --standard=Magento2 \
         --extensions=php,phtml \
         --ignore-annotations \
-        $(MODULE)
+        app/code/$(MODULE)
 endef
 
 define run_phpstan
