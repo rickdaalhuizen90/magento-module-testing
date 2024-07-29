@@ -81,12 +81,12 @@ endef
 
 define run_phan
     @docker exec -it --user root $(CONTAINER) \
-        php /var/www/html/vendor/bin/phan --init-level=5 app/code/$(MODULE)
+        php /var/www/html/vendor/bin/phan -k phan.php
 endef
 
 define run_phpmd
     @docker exec -it --user root $(CONTAINER) \
-        php /var/www/html/vendor/bin/phpmd app/code/$(MODULE) tests/static/framework/Magento/ruleset.xml
+        php /var/www/html/vendor/bin/phpmd app/code/$(MODULE) dev/tests/static/framework/Magento/ruleset.xml
 endef
 
 define run_performance_tests
