@@ -8,7 +8,7 @@ define build_containers
 endef
 
 define install_magento
-    @docker compose exec -T --user www-data -w /var/www/html php-fpm bash -c "$$(cat ./bin/install_magento.sh)"
+    @docker exec -it --user root -w /var/www/html php-fpm-test bash -c "$$(cat ./bin/install_magento.sh)"
 endef
 
 define copy_config
@@ -16,6 +16,9 @@ define copy_config
 	@docker cp --quiet tests/integration/phpunit.xml.dist $(CONTAINER):/var/www/html/dev/tests/integration/phpunit.xml
     @docker cp --quiet tests/integration/etc/install-config-mysql.php $(CONTAINER):/var/www/html/dev/tests/integration/etc/install-config-mysql.php
     @docker cp --quiet tests/integration/etc/config-global.php $(CONTAINER):/var/www/html/dev/tests/integration/etc/config-global.php
+    @docker cp --quiet tests/phan.php $(CONTAINER):/var/www/html/phan.php
+    @docker cp --quiet tests/phpstan.neon $(CONTAINER):/var/www/html/phpstan.neon
+    @docker cp --quiet tests/psalm.xml $(CONTAINER):/var/www/html/psalm.xml
     @docker cp --quiet tests/rector.php $(CONTAINER):/var/www/html/rector.php
 endef
 
@@ -27,8 +30,8 @@ endef
 
 define install_module
     $(call upload_module)
-    @docker exec $(CONTAINER) php -dmemory_limit=-1 bin/magento s:up
-    @docker exec $(CONTAINER) php -dmemory_limit=-1 bin/magento mod:status $(MODULE_NAME)
+    @docker exec --user root $(CONTAINER) php -dmemory_limit=-1 bin/magento s:up
+    @docker exec --user root $(CONTAINER) php -dmemory_limit=-1 bin/magento mod:status $(MODULE_NAME)
 endef
 
 define package_module
@@ -43,7 +46,7 @@ define package_module
 endef
 
 define run_phpcs
-    @docker run --rm -v $(PWD)/$(MODULE_PATH):/app/$(MODULE) \
+    @docker run --rm --name magento-coding-standard -v $(MODULE_PATH):/app/$(MODULE) \
         ghcr.io/rickdaalhuizen90/magento-coding-standard:latest \
         php magento-coding-standard/vendor/bin/phpcs \
         --standard=Magento2 \
@@ -56,13 +59,33 @@ define run_phpcs
 endef
 
 define run_phpcbf
-    @docker run --rm -v $(PWD)/$(MODULE_PATH):/app/$(MODULE) \
+    @docker run --rm --name magento-coding-standard -v $(MODULE_PATH):/app/$(MODULE) \
         ghcr.io/rickdaalhuizen90/magento-coding-standard:latest \
         php magento-coding-standard/vendor/bin/phpcbf \
         --standard=Magento2 \
         --extensions=php,phtml \
         --ignore-annotations \
         $(MODULE)
+endef
+
+define run_phpstan
+    @docker exec -it --user root $(CONTAINER) \
+    php /var/www/html/vendor/bin/phpstan analyse app/code/$(MODULE)
+endef
+
+define run_psalm
+    @docker exec -it --user root $(CONTAINER) \
+        php /var/www/html/vendor/bin/psalm.phar -c psalm.xml app/code/$(MODULE)
+endef
+
+define run_phan
+    @docker exec -it --user root $(CONTAINER) \
+        php /var/www/html/vendor/bin/phan --init-level=5 app/code/$(MODULE)
+endef
+
+define run_phpmd
+    @docker exec -it --user root $(CONTAINER) \
+        php /var/www/html/vendor/bin/phpmd app/code/$(MODULE) tests/static/framework/Magento/ruleset.xml
 endef
 
 define run_performance_tests
@@ -74,12 +97,11 @@ define run_unit_tests
 endef
 
 define run_integration_tests
-    @docker exec -i --user www-data -w /var/www/html $(CONTAINER) bash -c ' \
+    @docker exec -i --user root -w /var/www/html $(CONTAINER) bash -c ' \
         cd dev/tests/integration && \
         ../../../vendor/bin/phpunit --testsuite "Third Party Integration Tests" --color ../../../app/code/$(MODULE)/Test/Integration \
     '
 endef
-
 
 define run_rector
 	@docker exec -it --user root $(CONTAINER) ./vendor/bin/rector process app/code/

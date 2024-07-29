@@ -36,4 +36,4 @@ php -d memory_limit=-1 bin/magento setup:install \
 
 php bin/magento deploy:mode:set developer
 
-COMPOSER_MEMORY_LIMIT=-1 composer require --dev psalm/phar phan/phan
+COMPOSER_MEMORY_LIMIT=-1 composer require --dev psalm/phar phan/phan #rector/rector -W

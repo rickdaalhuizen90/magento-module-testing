@@ -33,6 +33,8 @@ services:
       - /tmp
       - /var/lib/mysql
 
+  # Add elasticsearch for php 2.4.3 suport
+
   opensearch:
     container_name: opensearch-test
     image: ghcr.io/rickdaalhuizen90/opensearch:${OPENSEARCH_VERSION:-2.12.0}
@@ -51,7 +53,7 @@ services:
         hard: -1
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3.8-management-alpine
+    image: rabbitmq:${RABBITMQ_VERSION-3.9}-management-alpine
     ports:
       - "5672:5672"
       - "15672:15672"
