@@ -21,6 +21,7 @@ define copy_config
     @docker cp --quiet tests/psalm.xml $(CONTAINER):/var/www/html/psalm.xml
     @docker cp --quiet tests/rector.php $(CONTAINER):/var/www/html/rector.php
     @docker cp --quiet tests/phpstan-rules $(CONTAINER):/var/www/html/dev/tests/phpstan-rules
+    @docker cp --quiet tests/ruleset.xml $(CONTAINER):/var/www/html/ruleset.xml
 endef
 
 define upload_module
@@ -86,7 +87,7 @@ endef
 
 define run_phpmd
     @docker exec -it --user root $(CONTAINER) \
-        php /var/www/html/vendor/bin/phpmd app/code/$(MODULE) dev/tests/static/framework/Magento/ruleset.xml
+        php /var/www/html/vendor/bin/phpmd app/code/$(MODULE) ansi ruleset.xml
 endef
 
 define run_performance_tests
