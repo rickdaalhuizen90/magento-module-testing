@@ -6,7 +6,7 @@ composer install --no-interaction --prefer-dist --optimize-autoloader --no-sugge
 
 MAGENTO_CLEAN_VERSION=$(echo "$MAGENTO_VERSION" | sed 's/-.*//') 
 
-if [[ "${MAGENTO_CLEAN_VERSION}" < "2.4.3" ]]; then
+if [[ "${MAGENTO_CLEAN_VERSION}" < "2.4.4" ]]; then
     SEARCH_ENGINE="elasticsearch7"
     SEARCH_ENGINE_FLAGS="--elasticsearch-host=opensearch --elasticsearch-port=9200"
 else
