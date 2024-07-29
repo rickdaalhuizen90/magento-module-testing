@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
-<psalm>
+<psalm
+    minPsalmVersion="5.25.0"
+    phpVersion="7.4"
+    errorLevel="1"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="true"
+>
     <projectFiles>
-        <directory name="/var/www/html/app/code" />
+        <directory name="app/code" />
     </projectFiles>
 </psalm>
