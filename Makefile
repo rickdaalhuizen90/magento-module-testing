@@ -40,6 +40,7 @@ help:
 	@echo -e "  ${CYAN}upload${RESET}              	- Upload the module to Magento"
 	@echo -e "  ${CYAN}install-module${RESET}      	- Install the module in Magento"
 	@echo -e "  ${CYAN}package${RESET}             	- Package the module"
+	@echo -e "  ${CYAN}ssh${RESET}                   - SSH into the container as root"
 	@echo -e "  ${CYAN}all${RESET}                 	- Full process: setup, format-code, static-code-analysis, tests"
 	@echo ""
 	@echo -e "${BOLD}${GREEN}[Static Code Analysis]${RESET}"
@@ -70,12 +71,6 @@ format-code: phpcbf rector
 	@echo "🎉 Code formatting completed successfully!"
 
 static-code-analysis: phpstan phpmd phpcs psalm phan
-	$(MAKE) phpstan &
-	@$(MAKE) phpmd &
-	@$(MAKE) phpcs &
-	@$(MAKE) psalm &
-	@$(MAKE) phan &
-	@wait
 	@echo "🎉 Static code analysis completed successfully!"
 
 tests: performance-tests unit-tests integration-tests mtf-tests
@@ -104,6 +99,10 @@ upload:
 install-module:
 	@echo "🚀 Installing module: ${MODULE_NAME}..."
 	$(call install_module)
+
+ssh:
+	@echo "🔐 SSH into the Docker container as root..."
+	@docker exec -it --user root php-fpm-test bash
 
 package:
 	@echo "📦 Packaging module..."

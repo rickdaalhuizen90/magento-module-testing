@@ -9,8 +9,6 @@ MAGENTO_CLEAN_VERSION=$(echo "$MAGENTO_VERSION" | sed 's/-.*//')
 if [[ "${MAGENTO_CLEAN_VERSION}" < "2.4.4" ]]; then
     SEARCH_ENGINE="elasticsearch7"
     SEARCH_ENGINE_FLAGS="--elasticsearch-host=opensearch --elasticsearch-port=9200"
-
-    # install rector/rector 0.11.60
 else
     SEARCH_ENGINE="opensearch"
     SEARCH_ENGINE_FLAGS="--${SEARCH_ENGINE}-host=opensearch --${SEARCH_ENGINE}-port=9200"
