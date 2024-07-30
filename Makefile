@@ -2,55 +2,93 @@
 
 include .env
 
+# Ensure necessary tools are installed
 ifeq ($(shell which xmlstarlet),)
     $(error "xmlstarlet is not installed. Please install it before running the Makefile command.")
 endif
 
-MODULE_NAME := $(shell xmlstarlet sel -t -v "//module/@name" $(MODULE_PATH)/etc/module.xml | head -n 1)
-MODULE := $(shell echo $(MODULE_NAME) | sed 's/_/\//g')
+# Extract module details
+MODULE_XML := $(MODULE_PATH)/etc/module.xml
+MODULE_NAME := $(shell xmlstarlet sel -t -v "//module/@name" $(MODULE_XML))
+MODULE := $(subst _,/,$(MODULE_NAME))
 CONTAINER := php-fpm-test
 
-include makefiles/functions.mk
+include makefiles/format-code.mk
+include makefiles/general.mk
+include makefiles/static-analysis.mk
+include makefiles/tests.mk
 
-.PHONY: help build install copy-config upload install-module package phpstan psalm phan phpcs phpcbf performance-tests unit-tests integration-tests rector mtf-tests setup format-code static-code-analysis tests all
+.PHONY: help setup format-code static-code-analysis tests all
+
+# ANSI color codes
+RESET := \033[0m
+BOLD := \033[1m
+UNDERLINE := \033[4m
+GREEN := \033[32m
+YELLOW := \033[33m
+BLUE := \033[34m
+CYAN := \033[36m
 
 help:
-	@echo "Usage: make <target>"
+	@echo -e "${BOLD}${CYAN}Usage:${RESET} make ${UNDERLINE}target${RESET}"
 	@echo ""
-	@echo "[General]"
-	@echo "  build                   - Build the Docker containers"
-	@echo "  install                 - Install Magento in the Docker container"
-	@echo "  copy-config             - Sync configuration files to the Docker container"
-	@echo "  upload                  - Upload the module to the Magento instance"
-	@echo "  install-module          - Install the module in the Magento instance"
-	@echo "  package                 - Package the module into a zip file"
-	@echo "  all                     - Run all targets (build, install, format-code, static-code-analysis, tests)"
+	@echo -e "${BOLD}${GREEN}[General Commands]${RESET}"
+	@echo -e "  ${CYAN}setup${RESET}               	- Full setup process: build, install, copy-config, upload, install-module"
+	@echo -e "  ${CYAN}build${RESET}               	- Build Docker containers"
+	@echo -e "  ${CYAN}install${RESET}             	- Install Magento in the container"
+	@echo -e "  ${CYAN}copy-config${RESET}         	- Sync configuration files"
+	@echo -e "  ${CYAN}upload${RESET}              	- Upload the module to Magento"
+	@echo -e "  ${CYAN}install-module${RESET}      	- Install the module in Magento"
+	@echo -e "  ${CYAN}package${RESET}             	- Package the module"
+	@echo -e "  ${CYAN}all${RESET}                 	- Full process: setup, format-code, static-code-analysis, tests"
 	@echo ""
-	@echo "[Static Code Analysis]"
-	@echo "  phpstan                 - Run PHPStan analysis"
-	@echo "  psalm                   - Run Psalm analysis"
-	@echo "  phan                    - Run Phan analysis"
-	@echo "  phpcs                   - Run PHP CodeSniffer checks"
-	@echo "  phpmd                   - Run PHP Mess Detector checks"
-	@echo "  static-code-analysis    - Run all static code analysis checks"
+	@echo -e "${BOLD}${GREEN}[Static Code Analysis]${RESET}"
+	@echo -e "  ${CYAN}phpstan${RESET}             	- Run PHPStan"
+	@echo -e "  ${CYAN}psalm${RESET}               	- Run Psalm"
+	@echo -e "  ${CYAN}phan${RESET}                	- Run Phan"
+	@echo -e "  ${CYAN}phpcs${RESET}               	- Run PHPCS"
+	@echo -e "  ${CYAN}phpmd${RESET}               	- Run PHPMD"
+	@echo -e "  ${CYAN}static-code-analysis${RESET}	- Run all static analysis tools"
 	@echo ""
-	@echo "[Code Style]"
-	@echo "  phpcbf                  - Run PHP Code Beautifier and Fixer"
-	@echo "  rector                  - Run Rector code refactoring"
-	@echo "  format-code             - Run all code formatting tools"
+	@echo -e "${BOLD}${GREEN}[Code Formatting]${RESET}"
+	@echo -e "  ${CYAN}phpcbf${RESET}              	- Run PHPCBF"
+	@echo -e "  ${CYAN}rector${RESET}              	- Run Rector"
+	@echo -e "  ${CYAN}format-code${RESET}         	- Format code using all tools"
 	@echo ""
-	@echo "[Testing]"
-	@echo "  performance-tests       - Run performance tests on the module"
-	@echo "  unit-tests              - Run unit tests on the module"
-	@echo "  integration-tests       - Run integration tests on the module"
-	@echo "  mtf-tests               - Run MTF (Magento Testing Framework) tests on the module"
-	@echo "  tests                   - Run all tests on the module"
+	@echo -e "${BOLD}${GREEN}[Testing]${RESET}"
+	@echo -e "  ${CYAN}unit-tests${RESET}          	- Run unit tests"
+	@echo -e "  ${CYAN}integration-tests${RESET}   	- Run integration tests"
+	@echo -e "  ${CYAN}mtf-tests${RESET}           	- Run MTF tests"
+	@echo -e "  ${CYAN}performance-tests${RESET}   	- Run performance tests"
+	@echo -e "  ${CYAN}tests${RESET}               	- Run all tests"
 
+# High-level commands
+setup: build install copy-config upload install-module
+	@echo "🎉 Setup completed successfully!"
+
+format-code: phpcbf rector
+	@echo "🎉 Code formatting completed successfully!"
+
+static-code-analysis: phpstan phpmd phpcs psalm phan
+	$(MAKE) phpstan &
+	@$(MAKE) phpmd &
+	@$(MAKE) phpcs &
+	@$(MAKE) psalm &
+	@$(MAKE) phan &
+	@wait
+	@echo "🎉 Static code analysis completed successfully!"
+
+tests: performance-tests unit-tests integration-tests mtf-tests
+	@echo "🎉 All tests passed successfully!"
+
+all: setup format-code static-code-analysis tests
+	@echo "🎉 All targets completed successfully!"
 
 build:
 	@echo "🐳 Building Docker Containers (PHP: ${PHP_VERSION}, Magento: ${MAGENTO_VERSION}, OpenSearch: ${OPENSEARCH_VERSION})"
 	$(call build_containers)
 
+# General Commands
 install:
 	@echo "🚀 Installing Magento ${MAGENTO_VERSION}..."
 	$(call install_magento)
@@ -72,6 +110,7 @@ package:
 	$(call package_module)
 	@echo "🎉 Module packaged successfully!"
 
+# Static Analysis
 phpstan:
 	@echo "🔍 Analyzing with PHPStan..."
 	$(call run_phpstan)
@@ -92,13 +131,10 @@ phpcs:
 	@echo "🔍 Checking code style (PHPCS)..."
 	$(call run_phpcs)
 
+# Code Formatting
 phpcbf:
 	@echo "🔧 Auto-fixing code (PHPCBF)..."
 	$(call run_phpcbf)
-
-performance-tests:
-	@echo "🚀 Running performance tests on the module..."
-	$(call run_performance_tests)
 
 rector:
 	@echo "🔧 Running Rector..."
@@ -106,6 +142,10 @@ rector:
 	$(call run_rector)
 	$(call download_module)
 
+# Testing
+performance-tests:
+	@echo "🚀 Running performance tests on the module..."
+	$(call run_performance_tests)
 unit-tests:
 	@echo "🧪 Running unit tests on the module..."
 	$(call run_unit_tests)
@@ -117,18 +157,3 @@ integration-tests:
 mtf-tests:
 	@echo "🧪 Running MTF (Magento Testing Framework) tests on the module..."
 	$(call run_mtf_tests)
-
-setup: build install copy-config upload install-module
-	@echo "🎉 Setup completed successfully!"
-
-format-code: phpcbf rector
-	@echo "🎉 Code formatting completed successfully!"
-
-static-code-analysis: phpstan phpmd phpcs psalm phan
-	@echo "🎉 Static code analysis completed successfully!"
-
-tests: performance-tests unit-tests integration-tests mtf-tests
-	@echo "🎉 All tests passed successfully!"
-
-all: setup format-code static-code-analysis tests
-	@echo "🎉 All targets completed successfully!"
