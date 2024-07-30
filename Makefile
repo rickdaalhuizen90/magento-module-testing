@@ -18,50 +18,41 @@ include makefiles/general.mk
 include makefiles/static-analysis.mk
 include makefiles/tests.mk
 
-.PHONY: help setup format-code static-code-analysis tests all
-
-# ANSI color codes
-RESET := \033[0m
-BOLD := \033[1m
-UNDERLINE := \033[4m
-GREEN := \033[32m
-YELLOW := \033[33m
-BLUE := \033[34m
-CYAN := \033[36m
+.PHONY: help setup build install copy-config upload install-module package ssh all phpstan psalm phan phpcs phpmd static-code-analysis phpcbf rector format-code unit-tests integration-tests mtf-tests performance-tests tests
 
 help:
-	@echo -e "${BOLD}${CYAN}Usage:${RESET} make ${UNDERLINE}target${RESET}"
+	@echo "Usage: make [target]"
 	@echo ""
-	@echo -e "${BOLD}${GREEN}[General Commands]${RESET}"
-	@echo -e "  ${CYAN}setup${RESET}               	- Full setup process: build, install, copy-config, upload, install-module"
-	@echo -e "  ${CYAN}build${RESET}               	- Build Docker containers"
-	@echo -e "  ${CYAN}install${RESET}             	- Install Magento in the container"
-	@echo -e "  ${CYAN}copy-config${RESET}         	- Sync configuration files"
-	@echo -e "  ${CYAN}upload${RESET}              	- Upload the module to Magento"
-	@echo -e "  ${CYAN}install-module${RESET}      	- Install the module in Magento"
-	@echo -e "  ${CYAN}package${RESET}             	- Package the module"
-	@echo -e "  ${CYAN}ssh${RESET}                   - SSH into the container as root"
-	@echo -e "  ${CYAN}all${RESET}                 	- Full process: setup, format-code, static-code-analysis, tests"
+	@echo "Targets:"
+	@echo "  setup                Full setup: build, install, config, upload, install-module"
+	@echo "  build                Build Docker containers"
+	@echo "  install              Install Magento in the container"
+	@echo "  copy-config          Sync configuration files"
+	@echo "  upload               Upload the module to Magento"
+	@echo "  install-module       Install the module in Magento"
+	@echo "  package              Package the module"
+	@echo "  ssh                  SSH into the container as root"
+	@echo "  all                  Full process: setup, format-code, static-code-analysis, tests"
 	@echo ""
-	@echo -e "${BOLD}${GREEN}[Static Code Analysis]${RESET}"
-	@echo -e "  ${CYAN}phpstan${RESET}             	- Run PHPStan"
-	@echo -e "  ${CYAN}psalm${RESET}               	- Run Psalm"
-	@echo -e "  ${CYAN}phan${RESET}                	- Run Phan"
-	@echo -e "  ${CYAN}phpcs${RESET}               	- Run PHPCS"
-	@echo -e "  ${CYAN}phpmd${RESET}               	- Run PHPMD"
-	@echo -e "  ${CYAN}static-code-analysis${RESET}	- Run all static analysis tools"
+	@echo "Static Code Analysis:"
+	@echo "  phpstan              Run PHPStan"
+	@echo "  psalm                Run Psalm"
+	@echo "  phan                 Run Phan"
+	@echo "  phpcs                Run PHPCS"
+	@echo "  phpmd                Run PHPMD"
+	@echo "  static-code-analysis Run all static analysis tools"
 	@echo ""
-	@echo -e "${BOLD}${GREEN}[Code Formatting]${RESET}"
-	@echo -e "  ${CYAN}phpcbf${RESET}              	- Run PHPCBF"
-	@echo -e "  ${CYAN}rector${RESET}              	- Run Rector"
-	@echo -e "  ${CYAN}format-code${RESET}         	- Format code using all tools"
+	@echo "Code Formatting:"
+	@echo "  phpcbf               Run PHPCBF"
+	@echo "  rector               Run Rector"
+	@echo "  format-code          Format code using all tools"
 	@echo ""
-	@echo -e "${BOLD}${GREEN}[Testing]${RESET}"
-	@echo -e "  ${CYAN}unit-tests${RESET}          	- Run unit tests"
-	@echo -e "  ${CYAN}integration-tests${RESET}   	- Run integration tests"
-	@echo -e "  ${CYAN}mtf-tests${RESET}           	- Run MTF tests"
-	@echo -e "  ${CYAN}performance-tests${RESET}   	- Run performance tests"
-	@echo -e "  ${CYAN}tests${RESET}               	- Run all tests"
+	@echo "Testing:"
+	@echo "  unit-tests           Run unit tests"
+	@echo "  integration-tests    Run integration tests"
+	@echo "  mtf-tests            Run MTF tests"
+	@echo "  performance-tests    Run performance tests"
+	@echo "  tests                Run all tests"
 
 # High-level commands
 setup: build install copy-config upload install-module
